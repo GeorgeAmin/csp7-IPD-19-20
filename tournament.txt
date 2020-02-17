@@ -1,0 +1,273 @@
+--------------------------------------------------------------------------------
+Section 0 - Line up
+--------------------------------------------------------------------------------
+Player 0 (P0): Friendlies, Chaotic Neutral
+        Collude every 3 betrays
+Player 1 (P1): Friendlies, Do not stop
+        Collude, then betray for the rest.
+Player 2 (P2): E2, Alternate
+        Collude, then alternate.
+Player 3 (P3): E3, Collude but retaliate
+        Collude first round. Collude, except in a round after getting 
+        a severe punishment.
+--------------------------------------------------------------------------------
+Section 1 - Player vs. Player
+--------------------------------------------------------------------------------
+Each column shows pts//round earned against each other player:
+             P0     P1     P2     P3
+vs. P0 :      0   -134   -234   -249
+vs. P1 :   -331      0   -372   -374
+vs. P2 :   -134    -75      0   -201
+vs. P3 :    -50    -74   -197      0
+TOTAL  :   -515   -283   -803   -824
+--------------------------------------------------------------------------------
+Section 2 - Leaderboard
+--------------------------------------------------------------------------------
+Average points per round:
+Team name (P#):  Score      with strategy name
+Friendlies(P1):        -71 points with Do not stop                             
+Friendlies(P0):       -129 points with Chaotic Neutral                         
+E2        (P2):       -201 points with Alternate                               
+E3        (P3):       -206 points with Collude but retaliate                   
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+example0--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'Friendlies'
+strategy_name = 'Chaotic Neutral'
+strategy_description = 'Collude every 3 betrays'
+    
+def move(my_history, their_history, my_score, their_score):
+    '''Make my move based on the history with this player.
+    
+    history: a string with one letter (c or b) per round that has been played with this opponent.
+    their_history: a string of the same length as history, possibly empty. 
+    The first round between these two players is my_history[0] and their_history[0]
+    The most recent round is my_history[-1] and their_history[-1]
+    
+    Returns 'c' or 'b' for collude or betray.
+    '''
+    if len(my_history) % 3 == 0:
+      return 'c'
+    else:
+      return 'b'--------------------------------------------------------------------------------
+example1--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'Friendlies'
+strategy_name = 'Do not stop'
+strategy_description = 'Collude, then betray for the rest.'
+    
+def move(my_history, their_history, my_score, their_score):
+    '''Make my move based on the history with this player.
+    
+    history: a string with one letter (c or b) per round that has been played with this opponent.
+    their_history: a string of the same length as history, possibly empty. 
+    The first round between these two players is my_history[0] and their_history[0]
+    The most recent round is my_history[-1] and their_history[-1]
+    
+    Returns 'c' or 'b' for collude or betray.
+    '''
+    if len(my_history) == 0:
+      return 'c'
+    else:
+      return 'b'
+--------------------------------------------------------------------------------
+example2--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'E2'
+strategy_name = 'Alternate'
+strategy_description = 'Collude, then alternate.'
+    
+def move(my_history, their_history, my_score, their_score):
+    '''Make my move based on the history with this player.
+    
+    history: a string with one letter (c or b) per round that has been played with this opponent.
+    their_history: a string of the same length as history, possibly empty. 
+    The first round between these two players is my_history[0] and their_history[0]
+    The most recent round is my_history[-1] and their_history[-1]
+    
+    Returns 'c' or 'b' for collude or betray.
+    '''
+    # This player colludes on even numbered rounds (first round is round #0).
+    if len(my_history)%2 == 0:
+        return 'c'
+    else:
+        return 'b'
+    --------------------------------------------------------------------------------
+example3--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'E3'
+strategy_name = 'Collude but retaliate'
+strategy_description = '''\
+Collude first round. Collude, except in a round after getting 
+a severe punishment.'''
+    
+def move(my_history, their_history, my_score, their_score):
+    '''Make my move based on the history with this player.
+    
+    history: a string with one letter (c or b) per round that has been played with this opponent.
+    their_history: a string of the same length as history, possibly empty. 
+    The first round between these two players is my_history[0] and their_history[0]
+    The most recent round is my_history[-1] and their_history[-1]
+    
+    Returns 'c' or 'b' for collude or betray.
+    '''
+    if len(my_history)==0: # It's the first round; collude.
+        return 'c'
+    elif my_history[-1]=='c' and their_history[-1]=='b':
+        return 'b' # Betray if they were severely punished last time,
+    else:
+        return 'c' # otherwise collude.--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Friendlies
+--------------------------------------------------------------------------------
+-331 pt//round: Friendlies(P0) "Chaotic Neutral"
+-134 pt//ound: Friendlies(P1) "Do not stop"
+Cbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcb
+CbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBb
+
+bcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbb
+bBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbb
+
+--------------------------------------------------------------------------------
+-134 pt//round: Friendlies(P0) "Chaotic Neutral"
+-234 pt//ound: E2(P2) "Alternate"
+CbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCb
+CbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCb
+
+BcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBc
+cBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcB
+
+BbCbBcBbCbBcBb
+cbCbcBcbCbcBcb
+
+--------------------------------------------------------------------------------
+-50 pt//round: Friendlies(P0) "Chaotic Neutral"
+-249 pt//ound: E3(P3) "Collude but retaliate"
+CBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCB
+CcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCc
+
+bCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbC
+bCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbC
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Friendlies
+--------------------------------------------------------------------------------
+-134 pt//round: Friendlies(P1) "Do not stop"
+-331 pt//ound: Friendlies(P0) "Chaotic Neutral"
+CbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBb
+Cbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcb
+
+bBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbb
+bcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbb
+
+--------------------------------------------------------------------------------
+-75 pt//round: Friendlies(P1) "Do not stop"
+-372 pt//ound: E2(P2) "Alternate"
+CbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
+Cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
+
+BbBbBbBbBbBbBbBbBbBbBbBbBbB
+cbcbcbcbcbcbcbcbcbcbcbcbcbc
+
+--------------------------------------------------------------------------------
+-74 pt//round: Friendlies(P1) "Do not stop"
+-374 pt//ound: E3(P3) "Collude but retaliate"
+CBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbB
+Ccbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc
+
+bBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbB
+bcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team E2
+--------------------------------------------------------------------------------
+-234 pt//round: E2(P2) "Alternate"
+-134 pt//ound: Friendlies(P0) "Chaotic Neutral"
+CbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCb
+CbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCb
+
+cBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcB
+BcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBc
+
+cbCbcBcbCbcBcb
+BbCbBcBbCbBcBb
+
+--------------------------------------------------------------------------------
+-372 pt//round: E2(P2) "Alternate"
+-75 pt//ound: Friendlies(P1) "Do not stop"
+Cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
+CbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
+
+cbcbcbcbcbcbcbcbcbcbcbcbcbc
+BbBbBbBbBbBbBbBbBbBbBbBbBbB
+
+--------------------------------------------------------------------------------
+-197 pt//round: E2(P2) "Alternate"
+-201 pt//ound: E3(P3) "Collude but retaliate"
+CBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
+CcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
+
+cBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
+BcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team E3
+--------------------------------------------------------------------------------
+-249 pt//round: E3(P3) "Collude but retaliate"
+-50 pt//ound: Friendlies(P0) "Chaotic Neutral"
+CcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCc
+CBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCB
+
+bCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbC
+bCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbC
+
+--------------------------------------------------------------------------------
+-374 pt//round: E3(P3) "Collude but retaliate"
+-74 pt//ound: Friendlies(P1) "Do not stop"
+Ccbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc
+CBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbB
+
+bcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc
+bBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbB
+
+--------------------------------------------------------------------------------
+-201 pt//round: E3(P3) "Collude but retaliate"
+-197 pt//ound: E2(P2) "Alternate"
+CcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
+CBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
+
+BcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
+cBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
+
+--------------------------------------------------------------------------------
