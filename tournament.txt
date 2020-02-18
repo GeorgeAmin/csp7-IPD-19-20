@@ -5,30 +5,29 @@ Player 0 (P0): Friendlies, Chaotic Neutral
         Collude every 3 betrays
 Player 1 (P1): Friendlies, Do not stop
         Collude, then betray for the rest.
-Player 2 (P2): E2, Alternate
-        Collude, then alternate.
-Player 3 (P3): E3, Collude but retaliate
-        Collude first round. Collude, except in a round after getting 
-        a severe punishment.
+Player 2 (P2): Friendlies, Occasionally
+        Collude every 4th time.
+Player 3 (P3): Friendlies, Parry This
+        Collude, but if punished, then only betray.
 --------------------------------------------------------------------------------
 Section 1 - Player vs. Player
 --------------------------------------------------------------------------------
 Each column shows pts//round earned against each other player:
              P0     P1     P2     P3
-vs. P0 :      0   -134   -234   -249
-vs. P1 :   -331      0   -372   -374
-vs. P2 :   -134    -75      0   -201
-vs. P3 :    -50    -74   -197      0
-TOTAL  :   -515   -283   -803   -824
+vs. P0 :      0   -135   -182   -133
+vs. P1 :   -330      0   -310   -249
+vs. P2 :   -234   -164      0   -163
+vs. P3 :   -331   -249   -311      0
+TOTAL  :   -895   -548   -803   -545
 --------------------------------------------------------------------------------
 Section 2 - Leaderboard
 --------------------------------------------------------------------------------
 Average points per round:
 Team name (P#):  Score      with strategy name
-Friendlies(P1):        -71 points with Do not stop                             
-Friendlies(P0):       -129 points with Chaotic Neutral                         
-E2        (P2):       -201 points with Alternate                               
-E3        (P3):       -206 points with Collude but retaliate                   
+Friendlies(P1):       -137 points with Do not stop                             
+Friendlies(P3):       -137 points with Parry This                              
+Friendlies(P2):       -201 points with Occasionally                            
+Friendlies(P0):       -224 points with Chaotic Neutral                         
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 example0--------------------------------------------------------------------------------
@@ -95,9 +94,9 @@ example2------------------------------------------------------------------------
 #     move: A function that returns 'c' or 'b'
 ####
 
-team_name = 'E2'
-strategy_name = 'Alternate'
-strategy_description = 'Collude, then alternate.'
+team_name = 'Friendlies'
+strategy_name = 'Occasionally'
+strategy_description = 'Collude every 4th time.'
     
 def move(my_history, their_history, my_score, their_score):
     '''Make my move based on the history with this player.
@@ -109,8 +108,7 @@ def move(my_history, their_history, my_score, their_score):
     
     Returns 'c' or 'b' for collude or betray.
     '''
-    # This player colludes on even numbered rounds (first round is round #0).
-    if len(my_history)%2 == 0:
+    if len(my_history)%4 == 0:
         return 'c'
     else:
         return 'b'
@@ -124,11 +122,9 @@ example3------------------------------------------------------------------------
 #     move: A function that returns 'c' or 'b'
 ####
 
-team_name = 'E3'
-strategy_name = 'Collude but retaliate'
-strategy_description = '''\
-Collude first round. Collude, except in a round after getting 
-a severe punishment.'''
+team_name = 'Friendlies'
+strategy_name = 'Parry This'
+strategy_description = 'Collude, but if punished, then only betray.'
     
 def move(my_history, their_history, my_score, their_score):
     '''Make my move based on the history with this player.
@@ -140,134 +136,134 @@ def move(my_history, their_history, my_score, their_score):
     
     Returns 'c' or 'b' for collude or betray.
     '''
-    if len(my_history)==0: # It's the first round; collude.
+    if len(my_history)==0:
         return 'c'
     elif my_history[-1]=='c' and their_history[-1]=='b':
-        return 'b' # Betray if they were severely punished last time,
+        return 'b' 
     else:
-        return 'c' # otherwise collude.--------------------------------------------------------------------------------
+        return 'b'--------------------------------------------------------------------------------
 Section 3 - Game Data for Team Friendlies
 --------------------------------------------------------------------------------
--331 pt//round: Friendlies(P0) "Chaotic Neutral"
--134 pt//ound: Friendlies(P1) "Do not stop"
+-330 pt//round: Friendlies(P0) "Chaotic Neutral"
+-135 pt//ound: Friendlies(P1) "Do not stop"
 Cbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcb
 CbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBb
 
-bcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbb
-bBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbb
+bcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbb
+bBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbb
 
 --------------------------------------------------------------------------------
--134 pt//round: Friendlies(P0) "Chaotic Neutral"
--234 pt//ound: E2(P2) "Alternate"
-CbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCb
-CbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCb
+-234 pt//round: Friendlies(P0) "Chaotic Neutral"
+-182 pt//ound: Friendlies(P2) "Occasionally"
+CbbcBbcbBcbbCbbcBbcbBcbbCbbcBbcbBcbbCbbcBbcbBcbbCbbcBbcbBcbbCbbcBbcbBcbbCbbcBbcb
+CbbBcbBbcBbbCbbBcbBbcBbbCbbBcbBbcBbbCbbBcbBbcBbbCbbBcbBbcBbbCbbBcbBbcBbbCbbBcbBb
 
-BcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBc
-cBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcB
-
-BbCbBcBbCbBcBb
-cbCbcBcbCbcBcb
+BcbbCbbcBbcbBcbbCbbcBbcb
+cBbbCbbBcbBbcBbbCbbBcbBb
 
 --------------------------------------------------------------------------------
--50 pt//round: Friendlies(P0) "Chaotic Neutral"
--249 pt//ound: E3(P3) "Collude but retaliate"
-CBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCB
-CcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCc
+-331 pt//round: Friendlies(P0) "Chaotic Neutral"
+-133 pt//ound: Friendlies(P3) "Parry This"
+Cbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcb
+CbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBb
 
-bCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbC
-bCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbC
+bcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbc
+bBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbB
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 Section 3 - Game Data for Team Friendlies
 --------------------------------------------------------------------------------
--134 pt//round: Friendlies(P1) "Do not stop"
+-135 pt//round: Friendlies(P1) "Do not stop"
+-330 pt//ound: Friendlies(P0) "Chaotic Neutral"
+CbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBb
+Cbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcb
+
+bBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbb
+bcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbb
+
+--------------------------------------------------------------------------------
+-164 pt//round: Friendlies(P1) "Do not stop"
+-310 pt//ound: Friendlies(P2) "Occasionally"
+CbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbb
+Cbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbb
+
+BbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbb
+cbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbb
+
+--------------------------------------------------------------------------------
+-249 pt//round: Friendlies(P1) "Do not stop"
+-249 pt//ound: Friendlies(P3) "Parry This"
+Cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Friendlies
+--------------------------------------------------------------------------------
+-182 pt//round: Friendlies(P2) "Occasionally"
+-234 pt//ound: Friendlies(P0) "Chaotic Neutral"
+CbbBcbBbcBbbCbbBcbBbcBbbCbbBcbBbcBbbCbbBcbBbcBbbCbbBcbBbcBbbCbbBcbBbcBbbCbbBcbBb
+CbbcBbcbBcbbCbbcBbcbBcbbCbbcBbcbBcbbCbbcBbcbBcbbCbbcBbcbBcbbCbbcBbcbBcbbCbbcBbcb
+
+cBbbCbbBcbBbcBbbCbbBcbBb
+BcbbCbbcBbcbBcbbCbbcBbcb
+
+--------------------------------------------------------------------------------
+-310 pt//round: Friendlies(P2) "Occasionally"
+-164 pt//ound: Friendlies(P1) "Do not stop"
+Cbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbb
+CbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbb
+
+cbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbb
+BbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbb
+
+--------------------------------------------------------------------------------
+-311 pt//round: Friendlies(P2) "Occasionally"
+-163 pt//ound: Friendlies(P3) "Parry This"
+Cbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbb
+CbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbb
+
+cbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbb
+BbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbb
+
+cbbbcbbbcbbbcbbbcbbbcbbbcbbbcb
+BbbbBbbbBbbbBbbbBbbbBbbbBbbbBb
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Friendlies
+--------------------------------------------------------------------------------
+-133 pt//round: Friendlies(P3) "Parry This"
 -331 pt//ound: Friendlies(P0) "Chaotic Neutral"
 CbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBb
 Cbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcb
 
-bBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbb
-bcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbb
+bBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbBbbB
+bcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbcbbc
 
 --------------------------------------------------------------------------------
--75 pt//round: Friendlies(P1) "Do not stop"
--372 pt//ound: E2(P2) "Alternate"
-CbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
-Cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
+-249 pt//round: Friendlies(P3) "Parry This"
+-249 pt//ound: Friendlies(P1) "Do not stop"
+Cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 
-BbBbBbBbBbBbBbBbBbBbBbBbBbB
-cbcbcbcbcbcbcbcbcbcbcbcbcbc
-
---------------------------------------------------------------------------------
--74 pt//round: Friendlies(P1) "Do not stop"
--374 pt//ound: E3(P3) "Collude but retaliate"
-CBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbB
-Ccbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc
-
-bBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbB
-bcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 
 --------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-Section 3 - Game Data for Team E2
---------------------------------------------------------------------------------
--234 pt//round: E2(P2) "Alternate"
--134 pt//ound: Friendlies(P0) "Chaotic Neutral"
-CbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCb
-CbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCb
+-163 pt//round: Friendlies(P3) "Parry This"
+-311 pt//ound: Friendlies(P2) "Occasionally"
+CbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbb
+Cbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbb
 
-cBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcBcbCbcB
-BcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBcBbCbBc
+BbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbbBbbb
+cbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbbcbbb
 
-cbCbcBcbCbcBcb
-BbCbBcBbCbBcBb
-
---------------------------------------------------------------------------------
--372 pt//round: E2(P2) "Alternate"
--75 pt//ound: Friendlies(P1) "Do not stop"
-Cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb
-CbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBb
-
-cbcbcbcbcbcbcbcbcbcbcbcbcbc
-BbBbBbBbBbBbBbBbBbBbBbBbBbB
-
---------------------------------------------------------------------------------
--197 pt//round: E2(P2) "Alternate"
--201 pt//ound: E3(P3) "Collude but retaliate"
-CBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
-CcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
-
-cBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
-BcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
-
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-Section 3 - Game Data for Team E3
---------------------------------------------------------------------------------
--249 pt//round: E3(P3) "Collude but retaliate"
--50 pt//ound: Friendlies(P0) "Chaotic Neutral"
-CcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCc
-CBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCB
-
-bCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbCcbC
-bCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbCBbC
-
---------------------------------------------------------------------------------
--374 pt//round: E3(P3) "Collude but retaliate"
--74 pt//ound: Friendlies(P1) "Do not stop"
-Ccbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc
-CBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbB
-
-bcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc
-bBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbBbB
-
---------------------------------------------------------------------------------
--201 pt//round: E3(P3) "Collude but retaliate"
--197 pt//ound: E2(P2) "Alternate"
-CcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
-CBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
-
-BcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBc
-cBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcBcB
+BbbbBbbbBbbbBbbbBbbbBbbbBbbbBb
+cbbbcbbbcbbbcbbbcbbbcbbbcbbbcb
 
 --------------------------------------------------------------------------------
